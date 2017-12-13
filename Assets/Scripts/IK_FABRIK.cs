@@ -16,39 +16,9 @@ public class IK_FABRIK : MonoBehaviour
 
     float threshold_distance = 0.1f;
 
-    void Start()
-    {
+    void Start() {
         distances = new float[joints.Length - 1];
         copy = new Vector3[joints.Length];
-
-        Vector3 v1 = new Vector3(2, 3, 4);
-        Vector3 v2 = new Vector3(7, 8, 9);
-        MyVector3 mv1 = new MyVector3(2, 3, 4);
-        MyVector3 mv2 = new MyVector3(7, 8, 9);
-        Debug.Log("v1-----------------------");
-        Debug.Log(v1);
-        Debug.Log("v2-----------------------");
-        Debug.Log(v2);
-        Debug.Log("mv1-----------------------");
-        Debug.Log(mv1);
-        Debug.Log("mv2-----------------------");
-        Debug.Log(mv2);
-        Debug.Log("SUMAv-----------------------");
-        Debug.Log(v1 + v2);
-        Debug.Log("SUMAmv-----------------------");
-        Debug.Log(mv1 + mv2);
-        Debug.Log("RESTAv-----------------------");
-        Debug.Log(v1 - v2);
-        Debug.Log("RESTAmv-----------------------");
-        Debug.Log(mv1 - mv2);
-        Debug.Log("MAGNITUDEv-----------------------");
-        Debug.Log(v1.magnitude);
-        Debug.Log("MAGNITUDEmv-----------------------");
-        Debug.Log(mv1.magnitude());
-        Debug.Log("DISTANCEv-----------------------");
-        Debug.Log(Vector3.Distance(v1, v2));
-        Debug.Log("DISTANCEmv-----------------------");
-        Debug.Log(MyVector3.Distance(mv1, mv2));
     }
 
     void Update()

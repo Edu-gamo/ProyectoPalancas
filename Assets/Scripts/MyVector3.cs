@@ -20,8 +20,12 @@ public class MyVector3 {
         z = _z;
     }
 
-    public static float Distance(MyVector3 a, MyVector3 b) {//ESTA MAL
-        return (b.x - a.x) + (b.y - a.y) + (b.z - a.z);
+    public MyVector3 normalized() {
+        return new MyVector3(x / magnitude(), y / magnitude(), z / magnitude());
+    }
+
+    public static float Distance(MyVector3 a, MyVector3 b) {
+        return new MyVector3((b.x - a.x) , (b.y - a.y) , (b.z - a.z)).magnitude();
     }
 
     public float magnitude() {
@@ -31,10 +35,26 @@ public class MyVector3 {
     public static MyVector3 operator +(MyVector3 v1, MyVector3 v2) {
         return new MyVector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
-    public static MyVector3 operator -(MyVector3 v1, MyVector3 v2)
-    {
+
+    public static MyVector3 operator -(MyVector3 v1, MyVector3 v2) {
         return new MyVector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
     }
+
+    public static MyVector3 operator *(float d, MyVector3 v) {
+        return new MyVector3(v.x * d, v.y * d, v.z * d);
+    }
+    public static MyVector3 operator *(MyVector3 v, float d) {
+        return new MyVector3(v.x * d, v.y * d, v.z * d);
+    }
+
+    public static MyVector3 Cross(MyVector3 v1, MyVector3 v2) {
+        return new MyVector3((v1.y * v2.z - v1.z * v2.y), (v1.z * v2.x - v1.x * v2.z), (v1.x * v2.y - v1.y * v2.x));
+    }
+
+    public static float Dot(MyVector3 v1, MyVector3 v2) {
+        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+    }
+
     public override string ToString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
