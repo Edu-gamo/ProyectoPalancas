@@ -23,16 +23,11 @@ public class MyFABRIK : MonoBehaviour {
         distances = new float[joints.Length - 1];
         copy = new MyVector3[joints.Length];
         jointsPositions = new MyVector3[joints.Length];
-        for (int i = 0; i < jointsPositions.Length; i++) {
-            jointsPositions[i] = new MyVector3(joints[i].position.x, joints[i].position.y, joints[i].position.z);
-        }
-        targetPosition = new MyVector3(target.position.x, target.position.y, target.position.z);
     }
 
     void Update() {
 
-        for (int i = 0; i < jointsPositions.Length; i++)
-        {
+        for (int i = 0; i < jointsPositions.Length; i++) {
             jointsPositions[i] = new MyVector3(joints[i].position.x, joints[i].position.y, joints[i].position.z);
         }
         targetPosition = new MyVector3(target.position.x, target.position.y, target.position.z);
@@ -46,7 +41,7 @@ public class MyFABRIK : MonoBehaviour {
         }
 
         //done = TODO2
-        done = (targetPosition - jointsPositions[joints.Length - 1]).magnitude() < threshold_distance;
+        done = (targetPosition - jointsPositions[jointsPositions.Length - 1]).magnitude() < threshold_distance;
         if (!done) {
             float targetRootDist = MyVector3.Distance(copy[0], targetPosition);
 
@@ -86,7 +81,7 @@ public class MyFABRIK : MonoBehaviour {
                     iter++;
 
                 }
-                Debug.Log(iter);
+                //Debug.Log(iter);
             }
 
             // Update original joint rotations
@@ -108,8 +103,12 @@ public class MyFABRIK : MonoBehaviour {
 
                 joints[i].position = copy[i];*/
                 Quaternion q = new Quaternion(axis.x * Mathf.Sin(angle / 2), axis.y * Mathf.Sin(angle / 2), axis.z * Mathf.Sin(angle / 2), Mathf.Cos(angle / 2));
+                //MyQuaternion q = new MyQuaternion(Mathf.Cos(angle / 2), axis.x * Mathf.Sin(angle / 2), axis.y * Mathf.Sin(angle / 2), axis.z * Mathf.Sin(angle / 2));
                 joints[i].position = new Vector3(copy[i].x, copy[i].y, copy[i].z);
                 joints[i].rotation = q * joints[i].rotation;
+                //MyQuaternion actualRot = new MyQuaternion(joints[i].rotation.w, joints[i].rotation.x, joints[i].rotation.y, joints[i].rotation.z);
+                //MyQuaternion newRot = MyQuaternion.multiply(q, actualRot);
+                //joints[i].rotation = new Quaternion(newRot.x, newRot.y, newRot.z, newRot.w);
             }
         }
     }

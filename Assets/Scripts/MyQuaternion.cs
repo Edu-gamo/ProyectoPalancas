@@ -37,7 +37,7 @@ public class MyQuaternion {
         return qRes;
     }
 
-    public MyQuaternion multiply(MyQuaternion q1, MyQuaternion q2) {
+    public static MyQuaternion multiply(MyQuaternion q1, MyQuaternion q2) {
         MyQuaternion qRes = new MyQuaternion();
         qRes.w = q2.w * q1.w - q2.x * q1.x - q2.y * q1.y - q2.z * q1.z;
         qRes.x = q2.w * q1.x + q2.x * q1.w - q2.y * q1.z + q2.z * q1.y;
@@ -52,18 +52,18 @@ public class MyQuaternion {
         this.z = -this.z;
     }
 
-    public MyQuaternion invert(MyQuaternion q1) {
+    public static MyQuaternion invert(MyQuaternion q1) {
         return new MyQuaternion(q1.w, -q1.x, -q1.y, -q1.z);
     }
 
-    public MyQuaternion fromAxis(Vector3 axis, float angle) {
+    public static MyQuaternion fromAxis(Vector3 axis, float angle) {
         return new MyQuaternion(Mathf.Cos(angle / 2),
                                 axis.x * Mathf.Sin(angle / 2),
                                 axis.y * Mathf.Sin(angle / 2),
                                 axis.z * Mathf.Sin(angle / 2));
     }
 
-    public AxisAngle toAxis(MyQuaternion q1, float angle) {
+    public static AxisAngle toAxis(MyQuaternion q1, float angle) {
         AxisAngle temp;
         temp.angle = Mathf.Sin(q1.w / 2);
         temp.axis = new Vector3(q1.x / Mathf.Sqrt(1 - q1.w * q1.w),

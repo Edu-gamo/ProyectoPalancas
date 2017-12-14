@@ -77,7 +77,7 @@ public class IK_FABRIK : MonoBehaviour
                     iter++;
 
                 }
-                Debug.Log(iter);
+                //Debug.Log(iter);
             }
 
             // Update original joint rotations
