@@ -11,11 +11,10 @@ public class Physics : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-
     }
 	
 	// Update is called once per frame
-	void FixedUpdate() {
+	void Update() {
 
         for (int i = 0; i < balls.Length; i++) {
 

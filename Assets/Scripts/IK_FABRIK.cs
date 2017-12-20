@@ -19,6 +19,7 @@ public class IK_FABRIK : MonoBehaviour
     void Start() {
         distances = new float[joints.Length - 1];
         copy = new Vector3[joints.Length];
+
     }
 
     void Update() {
@@ -102,10 +103,11 @@ public class IK_FABRIK : MonoBehaviour
 
                     float angle = Mathf.Atan2(sina, cosa);
 
-                    /*joints[i].rotation = Quaternion.AngleAxis(angle, eix) * joints[i].rotation;
+                    //joints[i].rotation = Quaternion.AngleAxis(angle, eix) * joints[i].rotation;
 
-                    joints[i].position = copy[i];*/
                     Quaternion q = new Quaternion(axis.x * Mathf.Sin(angle / 2), axis.y * Mathf.Sin(angle / 2), axis.z * Mathf.Sin(angle / 2), Mathf.Cos(angle / 2));
+                    //Debug.Log("IK_FABRIK: " + q);
+
                     joints[i].position = copy[i];
                     joints[i].rotation = q * joints[i].rotation;
                 }
