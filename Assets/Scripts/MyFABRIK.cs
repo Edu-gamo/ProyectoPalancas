@@ -28,7 +28,7 @@ public class MyFABRIK : MonoBehaviour {
     void Update()
     {
 
-        if (target.position.y > 1.5f)
+        if (target.position.y > 1.25f)
         {
 
             for (int i = 0; i < joints.Length; i++)

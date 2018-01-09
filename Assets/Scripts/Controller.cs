@@ -17,6 +17,9 @@ public class Controller : MonoBehaviour {
 
     MyFABRIK myFab;
 
+    float delay = 1.0f;
+    float maxDelay = 1.0f;
+
     // Use this for initialization
     void Start () {
 
@@ -32,13 +35,20 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if (withBall) balls[currentBall].position = myFab.joints[myFab.joints.Length - 1].position;
         if (myFab.done) {
 
+            myFab.done = false;
             changeTarget = true;
 
             if (withBall) {
                 withBall = false;
                 balls[currentBall].GetComponent<Rigidbody>().useGravity = true;
+                balls[currentBall].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                balls[currentBall].GetComponent<Rigidbody>().mass = 5;
+                for (int i = 0; i < balls.Length; i++) {
+                    if (i != currentBall) balls[i].GetComponent<Rigidbody>().mass = 1;
+                }
             } else {
                 withBall = true;
                 balls[currentBall].GetComponent<Rigidbody>().useGravity = false;
@@ -46,20 +56,26 @@ public class Controller : MonoBehaviour {
 
         }
 
-        if (withBall) balls[currentBall].position = myFab.joints[myFab.joints.Length - 1].position;
+        delay -= Time.deltaTime;
+        Debug.Log(delay);
+        if (delay <= 0.0f) {
+            delay = maxDelay;
 
-        if (changeTarget) {
+            if (changeTarget) {
 
-            if (withBall) {
-                myFab.target = targets[currentTarget];
-            } else {
-                currentBall++;
-                if (currentBall >= balls.Length) currentBall = 0;
-                currentTarget++;
-                if (currentTarget >= targets.Length) currentTarget = 0;
-                myFab.target = balls[currentBall];
+                changeTarget = false;
+
+                if (withBall) {
+                    myFab.target = targets[currentTarget];
+                } else {
+                    currentBall++;
+                    if (currentBall >= balls.Length) currentBall = 0;
+                    currentTarget++;
+                    if (currentTarget >= targets.Length) currentTarget = 0;
+                    myFab.target = balls[currentBall];
+                }
+
             }
-
         }
 
 
