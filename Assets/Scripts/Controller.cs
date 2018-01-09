@@ -56,10 +56,10 @@ public class Controller : MonoBehaviour {
 
         }
 
-        delay -= Time.deltaTime;
-        Debug.Log(delay);
-        if (delay <= 0.0f) {
-            delay = maxDelay;
+        //delay -= Time.deltaTime;
+        //Debug.Log(delay);
+        //if (delay <= 0.0f) {
+            //delay = maxDelay;
 
             if (changeTarget) {
 
@@ -76,7 +76,7 @@ public class Controller : MonoBehaviour {
                 }
 
             }
-        }
+        //}
 
 
 
