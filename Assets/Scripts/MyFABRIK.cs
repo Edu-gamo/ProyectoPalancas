@@ -13,7 +13,7 @@ public class MyFABRIK : MonoBehaviour {
 
     private MyVector3[] copy;
     private float[] distances;
-    private bool done;
+    public bool done;
     public int maxIter = 1;
     private int iter = 0;
 
