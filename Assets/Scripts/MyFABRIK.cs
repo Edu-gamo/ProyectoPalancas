@@ -69,6 +69,19 @@ public class MyFABRIK : MonoBehaviour {
                     while (!done /*|| iter < maxIter*/)
                     {
                         // STAGE 1: FORWARD REACHING
+
+                        //CONSTRAINS
+                        /*MyVector3 v1 = copy[copy.Length - 1] - copy[copy.Length - 2];
+                        MyVector3 v2 = targetPosition - copy[copy.Length - 2];
+                        float angle = Mathf.Acos(MyVector3.Dot(v1, v2) / (v1.magnitude() * v2.magnitude()));
+                        MyVector3 axis = MyVector3.Cross(v1, v2);
+
+                        if(angle < 45 || angle > 135) {
+
+                        } else {
+                            copy[copy.Length - 1] = targetPosition;
+                        }*/
+
                         copy[copy.Length - 1] = targetPosition;
                         for (int i = copy.Length - 1; i > 0; i--)
                         {

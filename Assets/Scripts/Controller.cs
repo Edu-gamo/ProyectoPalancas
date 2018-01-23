@@ -35,7 +35,8 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (withBall) balls[currentBall].position = myFab.joints[myFab.joints.Length - 1].position;
+        //if (withBall) balls[currentBall].position = myFab.joints[myFab.joints.Length - 1].position;
+        if (withBall) balls[currentBall].GetComponent<Ball>().position = myFab.joints[myFab.joints.Length - 1].position;
         if (myFab.done) {
 
             myFab.done = false;
@@ -43,15 +44,18 @@ public class Controller : MonoBehaviour {
 
             if (withBall) {
                 withBall = false;
-                balls[currentBall].GetComponent<Rigidbody>().useGravity = true;
-                balls[currentBall].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                balls[currentBall].GetComponent<Rigidbody>().mass = 5;
+                //balls[currentBall].GetComponent<Rigidbody>().useGravity = true;
+                //balls[currentBall].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                balls[currentBall].GetComponent<Ball>().velocity = new Vector3(0, 0, 0);
+                //balls[currentBall].GetComponent<Rigidbody>().mass = 5;
+                balls[currentBall].GetComponent<Ball>().mass = 5;
                 for (int i = 0; i < balls.Length; i++) {
-                    if (i != currentBall) balls[i].GetComponent<Rigidbody>().mass = 1;
+                    //if (i != currentBall) balls[i].GetComponent<Rigidbody>().mass = 1;
+                    if (i != currentBall) balls[i].GetComponent<Ball>().mass = 1;
                 }
             } else {
                 withBall = true;
-                balls[currentBall].GetComponent<Rigidbody>().useGravity = false;
+                //balls[currentBall].GetComponent<Rigidbody>().useGravity = false;
             }
 
         }
