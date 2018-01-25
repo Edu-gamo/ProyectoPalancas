@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public struct AxisAngle {
-    public Vector3 axis;
+    public MyVector3 axis;
     public float angle;
 }
 
@@ -46,6 +46,15 @@ public class MyQuaternion {
         return qRes;
     }
 
+    public static MyQuaternion operator *(MyQuaternion q1, MyQuaternion q2) {
+        MyQuaternion qRes = new MyQuaternion();
+        qRes.w = q2.w * q1.w - q2.x * q1.x - q2.y * q1.y - q2.z * q1.z;
+        qRes.x = q2.w * q1.x + q2.x * q1.w - q2.y * q1.z + q2.z * q1.y;
+        qRes.y = q2.w * q1.y + q2.x * q1.z + q2.y * q1.w - q2.z * q1.x;
+        qRes.z = q2.w * q1.z - q2.x * q1.y + q2.y * q1.x + q2.z * q1.w;
+        return qRes;
+    }
+
     public void invert() {
         this.x = -this.x;
         this.y = -this.y;
@@ -56,7 +65,7 @@ public class MyQuaternion {
         return new MyQuaternion(q1.w, -q1.x, -q1.y, -q1.z);
     }
 
-    public static MyQuaternion fromAxis(Vector3 axis, float angle) {
+    public static MyQuaternion fromAxis(MyVector3 axis, float angle) {
         return new MyQuaternion(Mathf.Cos(angle / 2),
                                 axis.x * Mathf.Sin(angle / 2),
                                 axis.y * Mathf.Sin(angle / 2),
@@ -66,7 +75,7 @@ public class MyQuaternion {
     public static AxisAngle toAxis(MyQuaternion q1, float angle) {
         AxisAngle temp;
         temp.angle = Mathf.Sin(q1.w / 2);
-        temp.axis = new Vector3(q1.x / Mathf.Sqrt(1 - q1.w * q1.w),
+        temp.axis = new MyVector3(q1.x / Mathf.Sqrt(1 - q1.w * q1.w),
                                 q1.y / Mathf.Sqrt(1 - q1.w * q1.w),
                                 q1.z / Mathf.Sqrt(1 - q1.w * q1.w));
         return temp;
