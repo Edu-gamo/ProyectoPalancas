@@ -15,7 +15,8 @@ public class Controller : MonoBehaviour {
 
     bool changeTarget;
 
-    MyFABRIK myFab;
+    //MyFABRIK myFab;
+    //MyCCD myCCD;
 
     float delay = 1.0f;
     float maxDelay = 1.0f;
@@ -23,11 +24,13 @@ public class Controller : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        myFab = GetComponentInParent<MyFABRIK>();
+        //myFab = GetComponentInParent<MyFABRIK>();
+        //myCCD = GetComponentInParent<MyCCD>();
         withBall = false;
         currentBall = 0;
         currentTarget = 0;
-        myFab.target = balls[currentBall];
+        //myFab.target = balls[currentBall];
+        //myCCD.target = balls[currentBall];
         changeTarget = false;
 
     }
@@ -36,10 +39,13 @@ public class Controller : MonoBehaviour {
 	void Update () {
 
         //if (withBall) balls[currentBall].position = myFab.joints[myFab.joints.Length - 1].position;
-        if (withBall) balls[currentBall].GetComponent<Ball>().position = myFab.joints[myFab.joints.Length - 1].position;
-        if (myFab.done) {
+        //if (withBall) balls[currentBall].GetComponent<Ball>().position = myFab.joints[myFab.joints.Length - 1].position;
+        //if (withBall) balls[currentBall].GetComponent<Ball>().position = myCCD.joints[myCCD.joints.Length - 1].position;
+        //if (myFab.done) {
+        /*if (myCCD.done) {
 
-            myFab.done = false;
+            //myFab.done = false;
+            myCCD.done = false;
             changeTarget = true;
 
             if (withBall) {
@@ -58,7 +64,7 @@ public class Controller : MonoBehaviour {
                 //balls[currentBall].GetComponent<Rigidbody>().useGravity = false;
             }
 
-        }
+        }*/
 
         //delay -= Time.deltaTime;
         //Debug.Log(delay);
@@ -70,16 +76,18 @@ public class Controller : MonoBehaviour {
                 changeTarget = false;
 
                 if (withBall) {
-                    myFab.target = targets[currentTarget];
+                    //myFab.target = targets[currentTarget];
+                    //myCCD.target = targets[currentTarget];
                 } else {
-                    currentBall++;
-                    if (currentBall >= balls.Length) currentBall = 0;
-                    currentTarget++;
-                    if (currentTarget >= targets.Length) currentTarget = 0;
-                    myFab.target = balls[currentBall];
-                }
+                        currentBall++;
+                        if (currentBall >= balls.Length) currentBall = 0;
+                        currentTarget++;
+                        if (currentTarget >= targets.Length) currentTarget = 0;
+                        //myFab.target = balls[currentBall];
+                        //myCCD.target = balls[currentBall];
+                    }
 
-            }
+                }
         //}
 
 

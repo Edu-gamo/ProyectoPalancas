@@ -5,7 +5,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
 
     public float mass;
-    public float radius = 0.15f;
 
     public Vector3 position;
     public Vector3 postPosition;
@@ -50,7 +49,6 @@ public class Ball : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        this.transform.localScale.Set(radius, radius, radius);
         //positionInit = this.transform.position;
         position = this.transform.position;
         //velocityInit = new Vector3(0, 0, 0);
@@ -118,25 +116,24 @@ public class Ball : MonoBehaviour {
         }*/
 
         //Colision con la palanca
-        /*float dotProductDown = Vector3.Dot(normalDown, position);
+        float dotProductDown = Vector3.Dot(normalDown, position);
         float dotProductPostDown = Vector3.Dot(normalDown, postPosition);
 
-        if ((dotProductDown + dDown) * (dotProductPostDown + dDown) <= 0.15f) {
+        if ((dotProductDown + dDown) * (dotProductPostDown + dDown) <= 0) {
 
             float dotProductPostVelDown = Vector3.Dot(normalDown, postVelocity);
             float dotProductVelDown = Vector3.Dot(normalDown, velocity);
             Vector3 normalVel = dotProductVelDown * normalDown;
 
             postPosition = postPosition - (1 + elasticity) * (dotProductPostDown + dDown) * normalDown;
-            //postVelocity = postVelocity - (1 + elasticity) * (dotProductPostVelDown) * normalDown;
-            postVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+            postVelocity = postVelocity - (1 + elasticity) * (dotProductPostVelDown) * normalDown;
 
         }
 
         float dotProductRC = Vector3.Dot(normalRC, position);
         float dotProductPostRC = Vector3.Dot(normalRC, postPosition);
 
-        if ((dotProductRC + dRightC) * (dotProductPostRC + dRightC) <= 0.15f)
+        if ((dotProductRC + dRightC) * (dotProductPostRC + dRightC) <= 0)
         {
 
             float dotProductPostVelRC = Vector3.Dot(normalRC, postVelocity);
@@ -144,10 +141,9 @@ public class Ball : MonoBehaviour {
             Vector3 normalVel = dotProductVelRC * normalRC;
 
             postPosition = postPosition - (1 + elasticity) * (dotProductPostRC + dRightC) * normalRC;
-            //postVelocity = postVelocity - (1 + elasticity) * (dotProductVelRC) * normalRC;
-            postVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+            postVelocity = postVelocity - (1 + elasticity) * (dotProductVelRC) * normalRC;
 
-        }*/
+        }
 
         position = postPosition;
         velocity = postVelocity;

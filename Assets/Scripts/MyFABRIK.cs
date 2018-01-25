@@ -25,48 +25,6 @@ public class MyFABRIK : MonoBehaviour {
         jointsPositions = new MyVector3[joints.Length];
     }
 
-    MyVector3 applyConstrains(MyVector3 j1, MyVector3 j2, MyVector3 target, float minAngle, float maxAngle) {
-        MyVector3 finalPosition = target;
-
-        MyVector3 v1 = j1 - j2;
-        MyVector3 v2 = target - j2;
-        float angle = Mathf.Acos(MyVector3.Dot(v1, v2) / (v1.magnitude() * v2.magnitude())) * Mathf.Rad2Deg;
-
-        if (angle < minAngle) {
-
-            MyVector3 v3 = (target - j1).normalized();
-            int i = 1;
-
-            while (angle < minAngle) {
-                v3.normalized();
-                v3 *= i;
-                MyVector3 v4 = v3 - j2;
-                angle = Mathf.Acos(MyVector3.Dot(v1, v4) / (v1.magnitude() * v4.magnitude())) * Mathf.Rad2Deg;
-                i++;
-            }
-
-            finalPosition = j1 + v3;
-
-        } else if (angle > maxAngle) {
-
-            MyVector3 v3 = (targetPosition - j1).normalized();
-            int i = 1;
-
-            while (angle < maxAngle) {
-                v3.normalized();
-                v3 *= i;
-                MyVector3 v4 = v3 - j2;
-                angle = Mathf.Acos(MyVector3.Dot(v1, v4) / (v1.magnitude() * v4.magnitude())) * Mathf.Rad2Deg;
-                i++;
-            }
-
-            finalPosition = j1 + v3;
-
-        }
-
-        return finalPosition;
-    }
-
     void Update()
     {
 
@@ -111,15 +69,25 @@ public class MyFABRIK : MonoBehaviour {
                     while (!done /*|| iter < maxIter*/)
                     {
                         // STAGE 1: FORWARD REACHING
-                        copy[copy.Length - 1] = applyConstrains(copy[copy.Length - 1], copy[copy.Length - 2], targetPosition, 45, 135);
-                        //copy[copy.Length - 1] = targetPosition;
+
+                        //CONSTRAINS
+                        /*MyVector3 v1 = copy[copy.Length - 1] - copy[copy.Length - 2];
+                        MyVector3 v2 = targetPosition - copy[copy.Length - 2];
+                        float angle = Mathf.Acos(MyVector3.Dot(v1, v2) / (v1.magnitude() * v2.magnitude()));
+                        MyVector3 axis = MyVector3.Cross(v1, v2);
+
+                        if(angle < 45 || angle > 135) {
+
+                        } else {
+                            copy[copy.Length - 1] = targetPosition;
+                        }*/
+
+                        copy[copy.Length - 1] = targetPosition;
                         for (int i = copy.Length - 1; i > 0; i--)
                         {
                             MyVector3 temp = (copy[i - 1] - copy[i]).normalized();
                             temp = temp * distances[i - 1];
-
-                            copy[i - 1] = applyConstrains(copy[i - 1], copy[i], temp + copy[i], 45, 135);
-                            //copy[i - 1] = temp + copy[i];
+                            copy[i - 1] = temp + copy[i];
                         }
 
                         // STAGE 2: BACKWARD REACHING
