@@ -57,12 +57,8 @@ public class MyCCD : MonoBehaviour {
                         Vector3 r1 = jointsPositions[jointsPositions.Length - 1] - jointsPositions[i];
                         Vector3 r2 = tpos - jointsPositions[i];
 
-                        if (r1.magnitude * r2.magnitude <= 0.001f) {
-
-                        } else {
-                            cos[i] = Vector3.Dot(r1, r2) / (r1.magnitude * r2.magnitude);
-                            sin[i] = Vector3.Cross(r1, r2).magnitude / (r1.magnitude * r2.magnitude);
-                        }
+                        cos[i] = Vector3.Dot(r1, r2) / (r1.magnitude * r2.magnitude);
+                        sin[i] = Vector3.Cross(r1, r2).magnitude / (r1.magnitude * r2.magnitude);
 
                         Vector3 axis = Vector3.Cross(r1, r2).normalized;
 
@@ -73,29 +69,42 @@ public class MyCCD : MonoBehaviour {
 
                         joints[i].rotation = Quaternion.AngleAxis(theta[i], axis) * joints[i].rotation;
 
+                        //CONSTRAINTS
+                        if (i > 0) {
+                            Vector3 ToParent = (joints[i - 1].position - joints[i].position).normalized;
+                            Vector3 ToChild = (joints[i + 1].position - joints[i].position).normalized;
+                            axis = Vector3.Cross(ToParent, ToChild).normalized;
+
+                            float angle = Mathf.Acos(Vector3.Dot(ToParent, ToChild) / (ToParent.magnitude * ToChild.magnitude)) * Mathf.Rad2Deg;
+
+                            if (angle > maxAngle || angle < ((i == 1) ? minAngle * 4 : minAngle)) {
+                                angle = Mathf.Clamp(angle, ((i == 1) ? minAngle * 4 : minAngle), maxAngle);
+
+                                Quaternion qrot = Quaternion.AngleAxis(angle, axis);
+                                joints[i].rotation = joints[i - 1].rotation;
+                                joints[i].Rotate(axis, 180 + angle, Space.World);
+                            }
+                        } else if(i == 0) {
+                            Vector3 ToParent = Vector3.down;
+                            Vector3 ToChild = (joints[i + 1].position - joints[i].position).normalized;
+                            axis = Vector3.Cross(ToParent, ToChild).normalized;
+
+                            float angle = Mathf.Acos(Vector3.Dot(ToParent, ToChild) / (ToParent.magnitude * ToChild.magnitude)) * Mathf.Rad2Deg;
+
+                            if (angle > maxAngle + maxAngle / 4 || angle < maxAngle - maxAngle / 4) {
+                                angle = Mathf.Clamp(angle, maxAngle - maxAngle / 4, maxAngle + maxAngle / 4);
+
+                                Quaternion qrot = Quaternion.AngleAxis(angle, axis);
+                                //joints[i].rotation = joints[i - 1].rotation;
+                                joints[i].rotation = Quaternion.identity;
+                                joints[i].Rotate(axis, 180 + angle, Space.World);
+                            }
+                        }
+
                         for (int j = i; j < joints.Length; j++) {
                             jointsPositions[j] = new Vector3(joints[j].position.x, joints[j].position.y, joints[j].position.z);
                         }
 
-                    }
-
-                    //CONSTRAINS
-                    for (int i = 1; i < jointsPositions.Length - 2; i++) {
-                        Vector3 ToParent = (joints[i - 1].position - joints[i].position).normalized;
-                        Vector3 ToChild = (joints[i + 1].position - joints[i].position).normalized;
-                        Vector3 axis = Vector3.Cross(ToParent, ToChild).normalized;
-
-                        float angle = Mathf.Acos(Vector3.Dot(ToParent, ToChild) / (ToParent.magnitude * ToChild.magnitude)) * Mathf.Rad2Deg;
-                        if (angle > maxAngle || angle < minAngle)
-                        {
-                            angle = Mathf.Clamp(angle, minAngle, maxAngle);
-
-                            Quaternion qrot = new Quaternion(Mathf.Sin(angle / 2) * axis.x, Mathf.Sin(angle / 2) * axis.y, Mathf.Sin(angle / 2) * axis.z, Mathf.Cos(angle / 2));
-                            joints[i].rotation = qrot * joints[i - 1].rotation;
-                            /*Quaternion qrot = Quaternion.AngleAxis(angle, axis);
-                            joints[i].rotation = joints[i - 1].rotation;
-                            joints[i].Rotate(axis, 180 + angle, Space.World);*/
-                        }
                     }
 
                     tries++;
@@ -115,5 +124,6 @@ public class MyCCD : MonoBehaviour {
                 tpos = target.position;
             }
         }
-	}
+
+    }
 }
