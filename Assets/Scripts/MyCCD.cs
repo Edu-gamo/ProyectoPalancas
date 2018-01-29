@@ -36,7 +36,7 @@ public class MyCCD : MonoBehaviour {
 		theta = new float[joints.Length];
 		sin = new float[joints.Length];
 		cos = new float[joints.Length];
-		tpos = target.position;
+		//tpos = target.position;
         jointsPositions = new Vector3[joints.Length];
 
         for (int i = 0; i < joints.Length; i++) {
