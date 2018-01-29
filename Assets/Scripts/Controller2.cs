@@ -21,6 +21,8 @@ public class Controller2 : MonoBehaviour
     float delay = 1.0f;
     float maxDelay = 1.0f;
 
+    List<Vector3> path = new List<Vector3>();
+
     // Use this for initialization
     void Start() {
         myFab = GetComponentInParent<MyFABRIK>();
@@ -29,8 +31,13 @@ public class Controller2 : MonoBehaviour
         currentBall = 0;
         currentTarget = 0;
         myFab.target = balls[currentBall];
-        //myCCD.target = balls[currentBall];
+        /*myCCD.target = balls[currentBall];
+        myCCD.tpos = balls[currentBall].position;*/
         changeTarget = false;
+
+        /*path = makePath(balls[currentBall].position);
+        myCCD.target = path[0];
+        myCCD.tpos = path[0];*/
     }
 
     // Update is called once per frame
@@ -40,7 +47,9 @@ public class Controller2 : MonoBehaviour
         //if (withBall) balls[currentBall].position = myCCD.joints[myCCD.joints.Length - 1].position;
 
         if (myFab.done) {
-        //if (myCCD.done) {
+        //if (myCCD.done /*&& path.Count == 0*/) {
+
+            //path.Clear();
 
             myFab.done = false;
             //myCCD.done = false;
@@ -52,40 +61,68 @@ public class Controller2 : MonoBehaviour
                 balls[currentBall].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 balls[currentBall].GetComponent<Rigidbody>().mass = 5;
                 for (int i = 0; i < balls.Length; i++) {
-                    if (i != currentBall) balls[i].GetComponent<Rigidbody>().mass = 1;
+                    if (i != currentBall) balls[i].GetComponent<Rigidbody>().mass = 0.5f;
                 }
             } else {
                 withBall = true;
                 balls[currentBall].GetComponent<Rigidbody>().useGravity = false;
             }
 
-        }
+        } /*else if(myCCD.done) {
+            path.RemoveAt(0);
+            myCCD.done = false;
+            myCCD.target = path[0];
+            myCCD.tpos = path[0];
+        }*/
 
         //delay -= Time.deltaTime;
 
         //if (delay <= 0.0f) {
             //delay = maxDelay;
 
-            if (changeTarget) {
+        if (changeTarget) {
 
-                changeTarget = false;
+            changeTarget = false;
 
-                if (withBall) {
-                    myFab.target = targets[currentTarget];
-                    //myCCD.target = targets[currentTarget];
+            if (withBall) {
+                myFab.target = targets[currentTarget];
+                /*myCCD.target = targets[currentTarget];
+                myCCD.tpos = targets[currentTarget].position;*/
+                /*path = makePath(targets[currentTarget].position);
+                myCCD.target = path[0];
+                myCCD.tpos = path[0];*/
             } else {
-                    currentBall++;
-                    if (currentBall >= balls.Length) currentBall = 0;
-                    currentTarget++;
-                    if (currentTarget >= targets.Length) currentTarget = 0;
-                    myFab.target = balls[currentBall];
-                    //myCCD.target = balls[currentBall];
+                currentBall++;
+                if (currentBall >= balls.Length) currentBall = 0;
+                currentTarget++;
+                if (currentTarget >= targets.Length) currentTarget = 0;
+                myFab.target = balls[currentBall];
+                /*myCCD.target = balls[currentBall];
+                myCCD.tpos = balls[currentBall].position;*/
+                /*path = makePath(balls[currentBall].position);
+                myCCD.target = path[0];
+                myCCD.tpos = path[0];*/
             }
 
-            }
+        }
 
         //}
 
     }
+
+    /*List<Vector3> makePath(Vector3 target) {
+
+        List<Vector3> p = new List<Vector3>();
+
+        Vector3 toTarget = target - myCCD.joints[myCCD.joints.Length - 1].position;
+
+        for (int i = 1; i < toTarget.magnitude; i++) {
+            p.Add(myCCD.joints[myCCD.joints.Length - 1].position + (toTarget.normalized * i));
+        }
+
+        p.Add(target);
+
+        return p;
+    }*/
 
 }

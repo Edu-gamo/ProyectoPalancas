@@ -17,7 +17,7 @@ public class MyCCD : MonoBehaviour {
 	private float[] cos; 
 
 	public bool done = false;
-	private Vector3 tpos;
+    public Vector3 tpos;
     
 	[SerializeField]
 	private int Mtries = 10;
@@ -36,7 +36,7 @@ public class MyCCD : MonoBehaviour {
 		theta = new float[joints.Length];
 		sin = new float[joints.Length];
 		cos = new float[joints.Length];
-		//tpos = target.position;
+		if(target != null) tpos = target.position;
         jointsPositions = new Vector3[joints.Length];
 
         for (int i = 0; i < joints.Length; i++) {

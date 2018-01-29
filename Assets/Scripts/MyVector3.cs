@@ -20,6 +20,16 @@ public class MyVector3 {
         z = _z;
     }
 
+    public static MyVector3 Cross(MyVector3 v1, MyVector3 v2)
+    {
+        return new MyVector3((v1.y * v2.z - v1.z * v2.y), (v1.z * v2.x - v1.x * v2.z), (v1.x * v2.y - v1.y * v2.x));
+    }
+
+    public static float Dot(MyVector3 v1, MyVector3 v2)
+    {
+        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+    }
+
     public MyVector3 normalized() {
         return new MyVector3(x / this.magnitude(), y / this.magnitude(), z / this.magnitude());
     }
@@ -45,14 +55,6 @@ public class MyVector3 {
     }
     public static MyVector3 operator *(MyVector3 v, float f) {
         return new MyVector3(v.x * f, v.y * f, v.z * f);
-    }
-
-    public static MyVector3 Cross(MyVector3 v1, MyVector3 v2) {
-        return new MyVector3((v1.y * v2.z - v1.z * v2.y), (v1.z * v2.x - v1.x * v2.z), (v1.x * v2.y - v1.y * v2.x));
-    }
-
-    public static float Dot(MyVector3 v1, MyVector3 v2) {
-        return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
     }
 
     public override string ToString() {
